@@ -1,0 +1,79 @@
+{
+  "name": "ailore",
+  "version": "0.1.0",
+  "description": "Local-first semantic search and RAG for your codebase and docs. Ask questions in natural language and get answers grounded in your own files, with citations. Works fully offline with Ollama, or with OpenAI, Gemini and OpenRouter.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Gregori Dalzotto <gregori.d@gmail.com> (https://github.com/gregdalzotto)",
+  "homepage": "https://github.com/gregdalzotto/ailore#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregdalzotto/ailore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gregdalzotto/ailore/issues"
+  },
+  "keywords": [
+    "rag",
+    "semantic-search",
+    "cli",
+    "embeddings",
+    "vector-search",
+    "code-search",
+    "local-first",
+    "ollama",
+    "openai",
+    "gemini",
+    "openrouter",
+    "ai"
+  ],
+  "bin": {
+    "ailore": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.pt-BR.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "globby": "^14.0.2",
+    "picocolors": "^1.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@types/node": "^22.10.5",
+    "prettier": "^3.4.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0",
+    "eslint": "^9.18.0",
+    "vitest": "^2.1.8"
+  }
+}

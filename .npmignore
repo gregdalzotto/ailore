@@ -1,0 +1,17 @@
+# Source & dev files are excluded from the published package.
+# Only `dist`, READMEs and LICENSE are shipped (see package.json "files").
+src/
+tests/
+.github/
+*.config.ts
+*.config.js
+tsconfig.json
+.prettierrc.json
+.eslintrc*
+eslint.config.js
+.editorconfig
+.env.example
+CONTRIBUTING.md
+CHANGELOG.md
+coverage/
+.ailore/
