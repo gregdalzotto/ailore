@@ -1,0 +1,3 @@
+# Code owners are automatically requested for review on every pull request.
+# This guarantees the maintainer sees and approves any proposed change.
+* @gregdalzotto
