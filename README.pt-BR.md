@@ -14,6 +14,10 @@ Faça perguntas em linguagem natural e receba respostas fundamentadas nos _seus 
 
 [English 🇬🇧](./README.md)
 
+<br>
+
+![demo do ailore — index, search e ask com citações](./media/demo.gif)
+
 </div>
 
 ---

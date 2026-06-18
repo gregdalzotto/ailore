@@ -14,6 +14,10 @@ Ask questions in natural language and get answers grounded in _your own files_ �
 
 [Português 🇧🇷](./README.pt-BR.md)
 
+<br>
+
+![ailore demo — index, search and ask with citations](./media/demo.gif)
+
 </div>
 
 ---
