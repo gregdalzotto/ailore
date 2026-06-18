@@ -4,6 +4,9 @@
 
 This walkthrough goes from zero to your first answer using the **100% local** setup (Ollama) — no API key, no cost, nothing leaves your machine.
 
+> [!NOTE]
+> **You don't need to clone this repository to use ailore.** Installing the npm package (below) is all it takes — the source lives here only so you can read it or contribute. To use the tool: `npm install -g ailore`, or run it on demand with `npx ailore`.
+
 ## Quick start (3 steps)
 
 1. Install [Ollama](https://ollama.com) and pull a chat and an embedding model:

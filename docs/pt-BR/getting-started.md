@@ -4,6 +4,9 @@
 
 Este guia vai do zero até a sua primeira resposta usando o modo **100% local** (Ollama) — sem API key, sem custo, nada sai da sua máquina.
 
+> [!NOTE]
+> **Você não precisa clonar este repositório para usar o ailore.** Basta instalar o pacote do npm (abaixo) — o código-fonte está aqui apenas para você ler ou contribuir. Para usar a ferramenta: `npm install -g ailore`, ou rode sob demanda com `npx ailore`.
+
 ## Início rápido (3 passos)
 
 1. Instale o [Ollama](https://ollama.com) e baixe um modelo de chat e um de embedding:

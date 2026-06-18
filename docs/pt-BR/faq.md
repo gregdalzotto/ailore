@@ -2,6 +2,21 @@
 
 [🏠 Início](../../README.pt-BR.md) · [📚 Docs](./README.md) · [English 🇬🇧](../en/faq.md)
 
+<details open>
+<summary><b>Preciso clonar este repositório para usar o ailore?</b></summary>
+
+Não. Para **usar** o ailore, basta instalar o pacote publicado no npm:
+
+```bash
+npm install -g ailore     # depois rode `ailore` em qualquer lugar
+# ou, sem instalar:
+npx ailore --help
+```
+
+Clonar o repositório só é necessário se você quiser **ler o código-fonte ou contribuir**. Tudo que você precisa para indexar e consultar seus próprios projetos já vem no pacote do npm.
+
+</details>
+
 <details>
 <summary><b>Em quais idiomas posso perguntar e buscar?</b></summary>
 

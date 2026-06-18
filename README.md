@@ -49,6 +49,8 @@ Sources:
 
 ## Quick start
 
+_No need to clone this repo — the `npm install` below is all you need to use ailore (the source here is just for reading or contributing)._
+
 ```bash
 # 1. Install (Ollama path = 100% local, no API key)
 npm install -g ailore

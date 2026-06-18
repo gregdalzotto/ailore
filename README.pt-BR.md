@@ -49,6 +49,8 @@ Sources:
 
 ## Início rápido
 
+_Não precisa clonar este repositório — o `npm install` abaixo é tudo que você precisa para usar o ailore (o código aqui é só para ler ou contribuir)._
+
 ```bash
 # 1. Instale (caminho Ollama = 100% local, sem API key)
 npm install -g ailore
