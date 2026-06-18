@@ -32,4 +32,4 @@ All exports are typed; see the bundled `.d.ts` for full signatures.
 
 ---
 
-<div align="center"><sub>[← Prev: How it works](./architecture.md) · [📚 All guides](./README.md) · [Next: FAQ →](./faq.md)</sub></div>
+<div align="center"><sub>[← Prev: Security](./security.md) · [📚 All guides](./README.md) · [Next: FAQ →](./faq.md)</sub></div>

@@ -34,4 +34,4 @@ A busca é um scan de cosseno exato mantido inteiramente em memória — rápido
 
 ---
 
-<div align="center"><sub>[← Anterior: Integração com editores / MCP](./mcp.md) · [📚 Todos os guias](./README.md) · [Próximo: Uso como biblioteca →](./library-api.md)</sub></div>
+<div align="center"><sub>[← Anterior: Integração com editores / MCP](./mcp.md) · [📚 Todos os guias](./README.md) · [Próximo: Segurança →](./security.md)</sub></div>

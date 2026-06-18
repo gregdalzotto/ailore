@@ -32,4 +32,4 @@ Todos os exports são tipados; veja o `.d.ts` incluído para as assinaturas comp
 
 ---
 
-<div align="center"><sub>[← Anterior: Como funciona](./architecture.md) · [📚 Todos os guias](./README.md) · [Próximo: Perguntas frequentes →](./faq.md)</sub></div>
+<div align="center"><sub>[← Anterior: Segurança](./security.md) · [📚 Todos os guias](./README.md) · [Próximo: Perguntas frequentes →](./faq.md)</sub></div>

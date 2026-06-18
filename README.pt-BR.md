@@ -89,6 +89,7 @@ ailore ask "onde está implementado o rate limiter?"
 | 🔌 [Provedores](./docs/pt-BR/providers.md)                 | Ollama, OpenAI, Gemini, OpenRouter — misture à vontade.                    |
 | 🧩 [Integração com editores / MCP](./docs/pt-BR/mcp.md)    | Conecte o `ailore` ao Claude, Cursor e outros clientes MCP.                |
 | 🛠️ [Como funciona](./docs/pt-BR/architecture.md)           | O pipeline scan → chunk → embed → recuperar → responder.                   |
+| 🔐 [Segurança](./docs/pt-BR/security.md)                   | Fluxo de dados, segredos, config não confiável, reporte.                   |
 | 📦 [Uso como biblioteca](./docs/pt-BR/library-api.md)      | Embuta o motor nas suas próprias ferramentas.                              |
 | ❓ [FAQ](./docs/pt-BR/faq.md)                              | Idiomas, privacidade, custo, solução de problemas.                         |
 

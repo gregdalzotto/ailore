@@ -34,4 +34,4 @@ Search is an exact cosine scan kept fully in memory — fast and accurate for sm
 
 ---
 
-<div align="center"><sub>[← Prev: Editor / MCP integration](./mcp.md) · [📚 All guides](./README.md) · [Next: Use as a library →](./library-api.md)</sub></div>
+<div align="center"><sub>[← Prev: Editor / MCP integration](./mcp.md) · [📚 All guides](./README.md) · [Next: Security →](./security.md)</sub></div>

@@ -31,6 +31,7 @@ Guias focados, cada um com exemplos passo a passo.
 | Guia                                    | O que tem dentro                                              |
 | --------------------------------------- | ------------------------------------------------------------- |
 | [Como funciona](./architecture.md)      | O pipeline scan → chunk → embed → recuperar → responder.      |
+| [Segurança](./security.md)              | Fluxo de dados, segredos, config não confiável, reporte.      |
 | [Uso como biblioteca](./library-api.md) | Embuta o motor de indexação/recuperação nas suas ferramentas. |
 
 ### ❓ Ajuda

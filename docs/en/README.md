@@ -31,6 +31,7 @@ Focused guides, each with step-by-step examples.
 | Guide                                | What's inside                                          |
 | ------------------------------------ | ------------------------------------------------------ |
 | [How it works](./architecture.md)    | The scan → chunk → embed → retrieve → answer pipeline. |
+| [Security](./security.md)            | Data flow, secrets, untrusted config, reporting.       |
 | [Use as a library](./library-api.md) | Embed the indexing/retrieval engine in your own tools. |
 
 ### ❓ Help
