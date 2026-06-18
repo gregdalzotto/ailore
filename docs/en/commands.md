@@ -1,6 +1,6 @@
 # Commands
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/commands.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/commands.md)
 
 All commands accept the global flags `-C, --path <dir>` (operate on another directory), `-p, --provider`, `--embedding-provider`, `-m, --model`, `--embedding-model` and `--index-dir`. See [Configuration](./configuration.md) for the full list.
 
@@ -49,3 +49,9 @@ ailore mcp -C ./my-project # serve a specific project
 ```
 
 Full client setup (Claude, Cursor, …) is in [Editor / MCP integration](./mcp.md).
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Getting started](./getting-started.md) · [📚 All guides](./README.md) · [Next: Configuration →](./configuration.md)</sub></div>

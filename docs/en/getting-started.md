@@ -1,6 +1,6 @@
 # Getting started
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/getting-started.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/getting-started.md)
 
 This walkthrough goes from zero to your first answer using the **100% local** setup (Ollama) — no API key, no cost, nothing leaves your machine.
 
@@ -125,3 +125,9 @@ The answer streams into your terminal and the source files it used are listed at
 - [Configuration](./configuration.md) — tune models, retrieval and generation.
 - [Editor / MCP integration](./mcp.md) — let your AI assistant query the index.
 - [FAQ](./faq.md) — languages, privacy, troubleshooting.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[📚 All guides](./README.md) · [Next: Commands →](./commands.md)</sub></div>

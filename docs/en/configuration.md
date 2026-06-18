@@ -1,6 +1,6 @@
 # Configuration
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/configuration.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/configuration.md)
 
 `ailore` resolves configuration in this order (later wins):
 
@@ -70,4 +70,11 @@ ailore search --mode keyword "reciprocalRankFusion"
 | `AILORE_PROVIDER`, `AILORE_CHAT_MODEL`, `AILORE_EMBEDDING_MODEL` | Override without flags                             |
 | `AILORE_RETRIEVAL_MODE`                                          | Retrieval mode: `vector` / `keyword` / `hybrid`    |
 
-> Tip: export `AILORE_CHAT_MODEL` / `AILORE_EMBEDDING_MODEL` in your shell profile to set machine-wide defaults and skip per-project config.
+> [!TIP]
+> Export `AILORE_CHAT_MODEL` / `AILORE_EMBEDDING_MODEL` in your shell profile to set machine-wide defaults and skip per-project config.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Commands](./commands.md) · [📚 All guides](./README.md) · [Next: Retrieval modes →](./retrieval-modes.md)</sub></div>

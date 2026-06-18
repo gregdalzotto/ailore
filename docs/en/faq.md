@@ -1,6 +1,6 @@
 # FAQ
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/faq.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/faq.md)
 
 <details>
 <summary><b>Which languages can I use for questions and search?</b></summary>
@@ -118,3 +118,9 @@ npm uninstall -g ailore   # remove the global command
 ```
 
 </details>
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Use as a library](./library-api.md) · [📚 All guides](./README.md)</sub></div>

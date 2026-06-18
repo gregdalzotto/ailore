@@ -1,6 +1,6 @@
 # Providers
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/providers.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/providers.md)
 
 Pick a provider with `-p/--provider` (or set it in the config file). Embeddings and chat are configured independently, so you can mix and match.
 
@@ -29,9 +29,16 @@ ailore index --embedding-provider ollama
 ailore ask -p openai --embedding-provider ollama "summarize the indexer"
 ```
 
-> **Note on OpenRouter:** it does not offer a first-class embeddings endpoint, so when OpenRouter is your chat provider, embeddings transparently fall back to local Ollama. Set `--embedding-provider openai` if you prefer hosted embeddings.
+> [!NOTE]
+> **OpenRouter** does not offer a first-class embeddings endpoint, so when it is your chat provider, embeddings transparently fall back to local Ollama. Set `--embedding-provider openai` if you prefer hosted embeddings.
 
 ## Privacy
 
 - **With Ollama:** nothing leaves your machine — indexing and answering are fully local.
 - **With a hosted provider:** the retrieved chunks plus your question are sent to that provider to generate the answer, like any API call. API keys are read only from environment variables. See the [FAQ](./faq.md) for details.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Retrieval modes](./retrieval-modes.md) · [📚 All guides](./README.md) · [Next: Editor / MCP integration →](./mcp.md)</sub></div>

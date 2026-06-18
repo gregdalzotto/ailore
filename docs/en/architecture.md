@@ -1,6 +1,6 @@
 # How it works
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/architecture.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/architecture.md)
 
 ```
 files ──▶ scan (respect .gitignore) ──▶ chunk (line-aligned) ──▶ embed ──▶ .ailore/index.json
@@ -21,3 +21,9 @@ The index is a single `.ailore/index.json` file — no database to run, no nativ
 ## Scale
 
 Search is an exact cosine scan kept fully in memory — fast and accurate for small-to-medium codebases (up to roughly tens of thousands of chunks). For very large monorepos, scope the index to the relevant folders (`ailore index ./src`) or use `exclude` globs. An approximate-nearest-neighbour index is on the [roadmap](../../README.md#roadmap).
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Editor / MCP integration](./mcp.md) · [📚 All guides](./README.md) · [Next: Use as a library →](./library-api.md)</sub></div>

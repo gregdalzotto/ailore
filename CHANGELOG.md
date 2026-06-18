@@ -6,6 +6,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- **Documentation design system**: every guide now shares a consistent
+  navigation frame — home / docs hub / language switch in the header and a
+  guided prev → next tour in the footer — plus GitHub alert callouts
+  (`[!TIP]` / `[!NOTE]` / `[!IMPORTANT]`) and a per-language documentation hub
+  (`docs/en/README.md`, `docs/pt-BR/README.md`) with a grouped, card-style index.
+
 ## [0.3.0] — 2026-06-18
 
 ### Added

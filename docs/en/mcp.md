@@ -1,6 +1,6 @@
 # Editor / MCP integration
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/mcp.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/mcp.md)
 
 `ailore` speaks the [Model Context Protocol](https://modelcontextprotocol.io), so any MCP-capable client (Claude clients, Cursor, …) can use your index as a tool. Index once, then let the assistant call `ailore_search` / `ailore_ask` while you work — answers stay grounded in your files, with `path:line` citations.
 
@@ -26,6 +26,7 @@ cd /path/to/your-project
 ailore index
 ```
 
+> [!IMPORTANT]
 > If the SDK is missing, `ailore mcp` prints exactly what to install — it never fails silently.
 
 ## Claude Code
@@ -89,3 +90,9 @@ The shape is the same for any client — a stdio server entry:
 - **`ailore_ask`** needs the chat provider available (Ollama running, or an API key in the server's environment). **`ailore_search --mode keyword`** needs neither — just the index.
 - Communication is over **stdio**: stdout carries the protocol, so `ailore` logs only to stderr.
 - Re-run `ailore index` whenever the code changes so the tools stay current.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Providers](./providers.md) · [📚 All guides](./README.md) · [Next: How it works →](./architecture.md)</sub></div>

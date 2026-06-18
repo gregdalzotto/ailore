@@ -1,6 +1,6 @@
 # Como funciona
 
-[← Índice de docs](../../README.pt-BR.md) · [English 🇬🇧](../en/architecture.md)
+[🏠 Início](../../README.pt-BR.md) · [📚 Docs](./README.md) · [English 🇬🇧](../en/architecture.md)
 
 ```
 arquivos ─▶ varredura (.gitignore) ─▶ chunk (por linha) ─▶ embed ─▶ .ailore/index.json
@@ -21,3 +21,9 @@ O índice é um único arquivo `.ailore/index.json` — sem banco de dados para 
 ## Escala
 
 A busca é um scan de cosseno exato mantido inteiramente em memória — rápido e preciso para bases pequenas e médias (até cerca de dezenas de milhares de chunks). Para monorepos muito grandes, limite o índice às pastas relevantes (`ailore index ./src`) ou use globs de `exclude`. Um índice de vizinhos aproximados (ANN) está no [roadmap](../../README.pt-BR.md#roadmap).
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Anterior: Integração com editores / MCP](./mcp.md) · [📚 Todos os guias](./README.md) · [Próximo: Uso como biblioteca →](./library-api.md)</sub></div>

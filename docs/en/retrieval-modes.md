@@ -1,6 +1,6 @@
 # Retrieval modes
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/retrieval-modes.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/retrieval-modes.md)
 
 Semantic (vector) search is great at _meaning_ but weak at _exact tokens_ — symbol names, error strings, flags. Lexical **BM25** is the opposite. `ailore` defaults to **hybrid**, fusing both rankings with [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) so a result both rankers like floats to the top — no score calibration needed.
 
@@ -39,3 +39,9 @@ For a query, `ailore` produces two independent rankings of the same stored chunk
 No re-index is required to use any mode — the BM25 index is rebuilt from the chunks already on disk.
 
 See [How it works](./architecture.md) for the full pipeline.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: Configuration](./configuration.md) · [📚 All guides](./README.md) · [Next: Providers →](./providers.md)</sub></div>

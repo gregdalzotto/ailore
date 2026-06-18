@@ -1,6 +1,6 @@
 # Perguntas frequentes (FAQ)
 
-[← Índice de docs](../../README.pt-BR.md) · [English 🇬🇧](../en/faq.md)
+[🏠 Início](../../README.pt-BR.md) · [📚 Docs](./README.md) · [English 🇬🇧](../en/faq.md)
 
 <details>
 <summary><b>Em quais idiomas posso perguntar e buscar?</b></summary>
@@ -118,3 +118,9 @@ npm uninstall -g ailore   # remove o comando global
 ```
 
 </details>
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Anterior: Uso como biblioteca](./library-api.md) · [📚 Todos os guias](./README.md)</sub></div>

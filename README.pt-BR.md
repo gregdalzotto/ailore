@@ -61,7 +61,8 @@ cd meu-projeto && ailore index
 ailore ask "onde está implementado o rate limiter?"
 ```
 
-Primeira vez? O [**guia Começando**](./docs/pt-BR/getting-started.md) te leva passo a passo.
+> [!TIP]
+> Primeira vez? O [**guia Começando**](./docs/pt-BR/getting-started.md) te leva passo a passo — da instalação dos modelos à sua primeira resposta com citações.
 
 <br>
 
@@ -88,6 +89,8 @@ Primeira vez? O [**guia Começando**](./docs/pt-BR/getting-started.md) te leva p
 | 🛠️ [Como funciona](./docs/pt-BR/architecture.md)           | O pipeline scan → chunk → embed → recuperar → responder.                   |
 | 📦 [Uso como biblioteca](./docs/pt-BR/library-api.md)      | Embuta o motor nas suas próprias ferramentas.                              |
 | ❓ [FAQ](./docs/pt-BR/faq.md)                              | Idiomas, privacidade, custo, solução de problemas.                         |
+
+<div align="center"><sub><a href="./docs/pt-BR/README.md">Explore o hub completo de documentação →</a></sub></div>
 
 <br>
 

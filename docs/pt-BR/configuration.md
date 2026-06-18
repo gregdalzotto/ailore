@@ -1,6 +1,6 @@
 # Configuração
 
-[← Índice de docs](../../README.pt-BR.md) · [English 🇬🇧](../en/configuration.md)
+[🏠 Início](../../README.pt-BR.md) · [📚 Docs](./README.md) · [English 🇬🇧](../en/configuration.md)
 
 O `ailore` resolve a configuração nesta ordem (o último vence):
 
@@ -70,4 +70,11 @@ Os arrays de globs `include` / `exclude` controlam o corpus. O `ailore` sempre r
 | `AILORE_PROVIDER`, `AILORE_CHAT_MODEL`, `AILORE_EMBEDDING_MODEL` | Override sem flags                                   |
 | `AILORE_RETRIEVAL_MODE`                                          | Modo de recuperação: `vector` / `keyword` / `hybrid` |
 
-> Dica: exporte `AILORE_CHAT_MODEL` / `AILORE_EMBEDDING_MODEL` no perfil do seu shell para definir padrões na máquina inteira e dispensar config por projeto.
+> [!TIP]
+> Exporte `AILORE_CHAT_MODEL` / `AILORE_EMBEDDING_MODEL` no perfil do seu shell para definir padrões na máquina inteira e dispensar config por projeto.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Anterior: Comandos](./commands.md) · [📚 Todos os guias](./README.md) · [Próximo: Modos de recuperação →](./retrieval-modes.md)</sub></div>

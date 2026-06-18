@@ -61,7 +61,8 @@ cd my-project && ailore index
 ailore ask "where is the rate limiter implemented?"
 ```
 
-New here? The [**Getting started guide**](./docs/en/getting-started.md) walks you through it step by step.
+> [!TIP]
+> New here? The [**Getting started guide**](./docs/en/getting-started.md) walks you through it step by step — from installing models to your first cited answer.
 
 <br>
 
@@ -88,6 +89,8 @@ New here? The [**Getting started guide**](./docs/en/getting-started.md) walks yo
 | 🛠️ [How it works](./docs/en/architecture.md)       | The scan → chunk → embed → retrieve → answer pipeline.     |
 | 📦 [Use as a library](./docs/en/library-api.md)    | Embed the engine in your own tooling.                      |
 | ❓ [FAQ](./docs/en/faq.md)                         | Languages, privacy, cost, troubleshooting.                 |
+
+<div align="center"><sub><a href="./docs/en/README.md">Browse the full documentation hub →</a></sub></div>
 
 <br>
 

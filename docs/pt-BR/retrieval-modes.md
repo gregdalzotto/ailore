@@ -1,6 +1,6 @@
 # Modos de recuperação
 
-[← Índice de docs](../../README.pt-BR.md) · [English 🇬🇧](../en/retrieval-modes.md)
+[🏠 Início](../../README.pt-BR.md) · [📚 Docs](./README.md) · [English 🇬🇧](../en/retrieval-modes.md)
 
 A busca semântica (vetorial) é ótima em _significado_, mas fraca em _tokens exatos_ — nomes de símbolos, mensagens de erro, flags. O **BM25** lexical é o oposto. O `ailore` usa **hybrid** por padrão, fundindo os dois ranqueamentos via [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf): um resultado que ambos gostam sobe ao topo, sem precisar calibrar scores.
 
@@ -39,3 +39,9 @@ O [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf
 Nenhuma reindexação é necessária para usar qualquer modo — o índice BM25 é reconstruído a partir dos trechos já em disco.
 
 Veja [Como funciona](./architecture.md) para o pipeline completo.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Anterior: Configuração](./configuration.md) · [📚 Todos os guias](./README.md) · [Próximo: Provedores →](./providers.md)</sub></div>

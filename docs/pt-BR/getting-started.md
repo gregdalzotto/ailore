@@ -1,6 +1,6 @@
 # Começando
 
-[← Índice de docs](../../README.pt-BR.md) · [English 🇬🇧](../en/getting-started.md)
+[🏠 Início](../../README.pt-BR.md) · [📚 Docs](./README.md) · [English 🇬🇧](../en/getting-started.md)
 
 Este guia vai do zero até a sua primeira resposta usando o modo **100% local** (Ollama) — sem API key, sem custo, nada sai da sua máquina.
 
@@ -125,3 +125,9 @@ A resposta aparece em streaming no terminal e os arquivos de origem usados são 
 - [Configuração](./configuration.md) — ajuste modelos, recuperação e geração.
 - [Integração com editores / MCP](./mcp.md) — deixe seu assistente de IA consultar o índice.
 - [FAQ](./faq.md) — idiomas, privacidade, solução de problemas.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[📚 Todos os guias](./README.md) · [Próximo: Comandos →](./commands.md)</sub></div>

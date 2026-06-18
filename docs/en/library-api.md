@@ -1,6 +1,6 @@
 # Use as a library
 
-[← Docs index](../../README.md) · [Português 🇧🇷](../pt-BR/library-api.md)
+[🏠 Home](../../README.md) · [📚 Docs](./README.md) · [Português 🇧🇷](../pt-BR/library-api.md)
 
 `ailore` is primarily a CLI, but the indexing and retrieval engine is exported so you can embed it in your own tooling.
 
@@ -27,3 +27,9 @@ for (const { chunk, score } of hits) {
 - **MCP:** `startMcpServer`, `runSearchTool`, `runAskTool`.
 
 All exports are typed; see the bundled `.d.ts` for full signatures.
+
+<!-- nav-footer -->
+
+---
+
+<div align="center"><sub>[← Prev: How it works](./architecture.md) · [📚 All guides](./README.md) · [Next: FAQ →](./faq.md)</sub></div>
