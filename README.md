@@ -34,6 +34,7 @@ In English, _lore_ means the accumulated, often informal knowledge about somethi
 - 💬 **Grounded answers** (RAG): ask a question, get a synthesized answer that cites the exact source lines it used.
 - 🔒 **Local-first**: with Ollama, nothing ever leaves your machine — no API key, no cost.
 - 🔌 **Provider-agnostic**: swap between Ollama, OpenAI, Gemini and OpenRouter with a single flag.
+- 🧩 **MCP server**: `ailore mcp` exposes search/ask as tools to Cursor and any MCP-capable assistant.
 - ⚡ **Incremental indexing**: only changed files are re-embedded, so re-indexing a big repo is cheap.
 - 📎 **Trustworthy citations**: every chunk maps back to `path:startLine-endLine`, so you can verify answers.
 - 🪶 **Zero heavy dependencies**: the index is a plain file, no database to run, no native modules.
@@ -228,6 +229,23 @@ ailore search --json "database migrations" > hits.json
 
 Writes a starter `ailore.config.json` you can tweak.
 
+### `ailore mcp`
+
+Runs an [MCP](https://modelcontextprotocol.io) server over stdio, exposing two tools — `ailore_search` and `ailore_ask` — so an AI client (Cursor and other MCP-capable assistants) can search and ask against your index **on its own**, with the same `path:line` citations.
+
+```bash
+ailore mcp                 # serve the current directory
+ailore mcp -C ./my-project # serve a specific project
+```
+
+The MCP SDK is an **optional** dependency, so the base install stays lean. Install it once to enable this command:
+
+```bash
+npm install -g @modelcontextprotocol/sdk
+```
+
+See [Editor / MCP integration](#editor--mcp-integration) for client setup.
+
 ## Providers
 
 Pick a provider with `-p/--provider` (or set it in the config file). Embeddings and chat are configured independently, so you can mix and match.
@@ -332,6 +350,40 @@ for (const { chunk, score } of hits) {
   console.log(`${chunk.file}:${chunk.startLine}-${chunk.endLine} (${score.toFixed(3)})`);
 }
 ```
+
+## Editor / MCP integration
+
+`ailore` speaks the [Model Context Protocol](https://modelcontextprotocol.io), so any MCP-capable client can use your index as a tool. Index once, then let the assistant call `ailore_search` / `ailore_ask` while you work — answers stay grounded in your files, with citations.
+
+**1. Enable the optional MCP dependency** (once):
+
+```bash
+npm install -g ailore @modelcontextprotocol/sdk
+```
+
+**2. Index your project** so there is something to query:
+
+```bash
+cd /path/to/your-project
+ailore index
+```
+
+**3. Register the server** with your client. The exact file differs per client, but the shape is the same:
+
+```jsonc
+{
+  "mcpServers": {
+    "ailore": {
+      "command": "ailore",
+      "args": ["mcp", "-C", "/path/to/your-project"],
+    },
+  },
+}
+```
+
+Now the assistant has two tools: `ailore_search` (ranked snippets, no LLM) and `ailore_ask` (a grounded answer with sources). Both accept optional `topK` and `mode` (`vector` / `keyword` / `hybrid`) arguments.
+
+> Communication is over **stdio**: stdout carries the protocol, so `ailore` logs only to stderr. Re-run `ailore index` (or wire up a file watcher) whenever the project changes.
 
 ## How it works
 

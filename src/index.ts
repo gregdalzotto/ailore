@@ -38,6 +38,9 @@ export {
   type IndexMeta,
 } from './core/store.js';
 
+export { startMcpServer } from './mcp/server.js';
+export { runAskTool, runSearchTool, type McpToolContext } from './mcp/tools.js';
+
 export { createChatProvider, createEmbeddingProvider } from './providers/factory.js';
 export {
   ProviderError,

@@ -34,6 +34,7 @@ Em inglês, _lore_ significa o conhecimento acumulado — muitas vezes informal 
 - 💬 **Respostas fundamentadas** (RAG): pergunte e receba uma resposta sintetizada que **cita as linhas de origem** usadas.
 - 🔒 **Local-first**: com Ollama, nada sai da sua máquina — sem API key, sem custo.
 - 🔌 **Agnóstico de provedor**: alterne entre Ollama, OpenAI, Gemini e OpenRouter com uma flag.
+- 🧩 **Servidor MCP**: `ailore mcp` expõe buscar/perguntar como ferramentas para o Cursor e qualquer assistente compatível com MCP.
 - ⚡ **Indexação incremental**: só os arquivos alterados são re-embedados, então reindexar um repo grande é barato.
 - 📎 **Citações confiáveis**: todo trecho aponta para `arquivo:linhaInicio-linhaFim`, então você pode verificar a resposta.
 - 🪶 **Sem dependências pesadas**: o índice é um arquivo simples, sem banco para rodar, sem módulos nativos.
@@ -228,6 +229,23 @@ ailore search --json "migrations do banco" > hits.json
 
 Cria um `ailore.config.json` inicial que você pode ajustar.
 
+### `ailore mcp`
+
+Sobe um servidor [MCP](https://modelcontextprotocol.io) via stdio, expondo duas ferramentas — `ailore_search` e `ailore_ask` — para que um cliente de IA (Cursor e outros compatíveis com MCP) busque e pergunte sobre o seu índice **sozinho**, com as mesmas citações `arquivo:linha`.
+
+```bash
+ailore mcp                 # serve o diretório atual
+ailore mcp -C ./meu-projeto # serve um projeto específico
+```
+
+O SDK do MCP é uma dependência **opcional**, então o install base continua enxuto. Instale-o uma vez para habilitar este comando:
+
+```bash
+npm install -g @modelcontextprotocol/sdk
+```
+
+Veja [Integração com editores / MCP](#integração-com-editores--mcp) para configurar o cliente.
+
 ## Provedores
 
 Escolha um provedor com `-p/--provider` (ou defina no arquivo de config). Embeddings e chat são configurados de forma independente — dá para misturar.
@@ -332,6 +350,40 @@ for (const { chunk, score } of hits) {
   console.log(`${chunk.file}:${chunk.startLine}-${chunk.endLine} (${score.toFixed(3)})`);
 }
 ```
+
+## Integração com editores / MCP
+
+O `ailore` fala o [Model Context Protocol](https://modelcontextprotocol.io), então qualquer cliente compatível com MCP pode usar o seu índice como ferramenta. Indexe uma vez e deixe o assistente chamar `ailore_search` / `ailore_ask` enquanto você trabalha — as respostas continuam fundamentadas nos seus arquivos, com citações.
+
+**1. Habilite a dependência opcional do MCP** (uma vez):
+
+```bash
+npm install -g ailore @modelcontextprotocol/sdk
+```
+
+**2. Indexe seu projeto** para haver o que consultar:
+
+```bash
+cd /caminho/do/seu-projeto
+ailore index
+```
+
+**3. Registre o servidor** no seu cliente. O arquivo exato varia por cliente, mas o formato é o mesmo:
+
+```jsonc
+{
+  "mcpServers": {
+    "ailore": {
+      "command": "ailore",
+      "args": ["mcp", "-C", "/caminho/do/seu-projeto"],
+    },
+  },
+}
+```
+
+Agora o assistente tem duas ferramentas: `ailore_search` (trechos ranqueados, sem LLM) e `ailore_ask` (resposta fundamentada com fontes). Ambas aceitam os argumentos opcionais `topK` e `mode` (`vector` / `keyword` / `hybrid`).
+
+> A comunicação é via **stdio**: o stdout carrega o protocolo, então o `ailore` loga apenas no stderr. Rode `ailore index` de novo (ou configure um file watcher) sempre que o projeto mudar.
 
 ## Como funciona
 

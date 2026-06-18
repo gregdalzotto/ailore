@@ -6,6 +6,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **`ailore mcp`**: a Model Context Protocol server over stdio that exposes
+  `ailore_search` and `ailore_ask` tools, so MCP clients (Cursor and other
+  MCP-capable assistants) can query the local index with `path:line` citations. The
+  `@modelcontextprotocol/sdk` package is an **optional** peer dependency loaded
+  lazily, so the base install stays lean and non-MCP usage pays no cost; a
+  missing package yields an actionable install hint. Library API gains
+  `startMcpServer`, `runSearchTool`, `runAskTool`.
+
 ## [0.2.0] — 2026-06-18
 
 ### Added

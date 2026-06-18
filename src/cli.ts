@@ -3,6 +3,7 @@ import pkg from '../package.json' with { type: 'json' };
 import { runAsk } from './commands/ask.js';
 import { runIndex } from './commands/index-cmd.js';
 import { runInit } from './commands/init.js';
+import { runMcp } from './commands/mcp.js';
 import { runSearch } from './commands/search.js';
 import { PROVIDERS, RETRIEVAL_MODES, type Provider, type RetrievalMode } from './config/schema.js';
 import { logger } from './utils/logger.js';
@@ -111,6 +112,14 @@ program
   .action(async () => {
     await runInit(process.cwd());
   });
+
+withGlobals(
+  program
+    .command('mcp')
+    .description('Run an MCP server (stdio) exposing search/ask to MCP clients'),
+).action(async (flags: GlobalFlags) => {
+  await runMcp(toOverrides(flags));
+});
 
 async function main(): Promise<void> {
   try {
