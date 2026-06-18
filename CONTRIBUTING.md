@@ -68,6 +68,20 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 3. Add default models to `DEFAULT_MODELS`.
 4. Document it in both READMEs.
 
+## Releasing (maintainers)
+
+Releases are automated. Pushing a version tag triggers the
+[`publish` workflow](./.github/workflows/publish.yml), which runs the full test
+suite and publishes to npm with provenance.
+
+```bash
+npm version patch   # or minor / major — bumps package.json, commits, tags
+git push --follow-tags
+```
+
+This requires an `NPM_TOKEN` repository secret (a granular npm token with
+publish access and "bypass 2FA" enabled).
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the [MIT License](./LICENSE).
