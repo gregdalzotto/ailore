@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.1] — 2026-06-18
+
+### Security
+
+- **File scanning is now bounded to the project root.** `include` globs that use
+  `..` or absolute paths are rejected, so a committed `ailore.config.json` in an
+  untrusted repository can no longer widen indexing to read files outside the
+  directory ailore is pointed at (which, combined with a custom provider base
+  URL, could exfiltrate them). This also fixes a crash where such patterns made
+  globby throw with `.gitignore` handling on.
+- Expanded `SECURITY.md` with the project's trust model: data flow per provider,
+  environment-only API keys, the untrusted-config caveat, and prompt injection.
+- Updated development tooling (vitest 2 → 3) to clear dev-only audit advisories.
+  The published runtime has **0 known vulnerabilities**.
+
 ## [0.4.0] — 2026-06-18
 
 ### Added
@@ -100,7 +115,8 @@ Initial release.
   retrieval (`topK`, `minScore`) via config file, env vars or CLI flags.
 - Exported library API for embedding the engine in other tools.
 
-[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/gregdalzotto/ailore/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/gregdalzotto/ailore/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gregdalzotto/ailore/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gregdalzotto/ailore/compare/v0.1.1...v0.2.0
