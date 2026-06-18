@@ -1,5 +1,5 @@
 import { readFile, stat } from 'node:fs/promises';
-import { relative, resolve } from 'node:path';
+import { isAbsolute, relative, resolve } from 'node:path';
 import { globby } from 'globby';
 
 /** A text file that is eligible for indexing. */
@@ -99,7 +99,16 @@ function looksBinary(content: string): boolean {
  */
 export async function scanFiles(root: string, options: ScanOptions): Promise<ScannedFile[]> {
   const absRoot = resolve(root);
-  const patterns = options.include ?? ['**/*'];
+
+  // Reject include patterns that would escape the root — absolute paths or any
+  // `..` segment. This is the primary guard against a committed config widening
+  // `include` to read files outside the project, and it also avoids globby
+  // throwing on such patterns when `.gitignore` handling is on.
+  const requested = options.include ?? ['**/*'];
+  const patterns = requested.filter((pattern) => {
+    const body = pattern.startsWith('!') ? pattern.slice(1) : pattern;
+    return !isAbsolute(body) && !body.split(/[\\/]/).includes('..');
+  });
 
   const paths = await globby(patterns, {
     cwd: absRoot,
@@ -112,13 +121,19 @@ export async function scanFiles(root: string, options: ScanOptions): Promise<Sca
 
   const files: ScannedFile[] = [];
   for (const absPath of paths) {
+    const relPath = relative(absRoot, absPath);
+    // Defense in depth: never read outside the scan root, even if an `include`
+    // glob (which can come from a committed `ailore.config.json`) uses `..` or
+    // an absolute path to escape the project. globby resolves such patterns to
+    // real paths above the root, so we drop anything that isn't under it.
+    if (!relPath || relPath.startsWith('..') || isAbsolute(relPath)) continue;
     if (hasBinaryExtension(absPath)) continue;
     try {
       const info = await stat(absPath);
       if (info.size > options.maxFileSizeBytes) continue;
       const content = await readFile(absPath, 'utf-8');
       if (looksBinary(content)) continue;
-      files.push({ relPath: relative(absRoot, absPath), absPath, content });
+      files.push({ relPath, absPath, content });
     } catch {
       // Unreadable file (permissions, race with deletion) — skip it.
     }

@@ -1,4 +1,4 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -42,5 +42,21 @@ describe('scanFiles', () => {
     await writeFile(join(dir, 'b.md'), 'b');
     const files = await scanFiles(dir, { include: ['**/*.ts'], maxFileSizeBytes: 1_000_000 });
     expect(files.map((f) => f.relPath)).toEqual(['a.ts']);
+  });
+
+  it('never escapes the root, even when an include glob uses `..` or an absolute path', async () => {
+    // `dir` is the parent; the project is a subdir, with a secret beside it.
+    const project = join(dir, 'project');
+    await mkdir(project);
+    await writeFile(join(project, 'a.ts'), 'inside the project');
+    await writeFile(join(dir, 'secret.env'), 'TOKEN=supersecret');
+
+    const files = await scanFiles(project, {
+      include: ['**/*', '../*', '../**', join(dir, 'secret.env')],
+      maxFileSizeBytes: 1_000_000,
+    });
+
+    expect(files.map((f) => f.relPath)).toEqual(['a.ts']);
+    expect(files.some((f) => f.content.includes('supersecret'))).toBe(false);
   });
 });
