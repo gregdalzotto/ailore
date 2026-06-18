@@ -28,6 +28,9 @@ export interface IndexResult {
 /** How many chunks to embed per provider request. */
 const EMBED_BATCH_SIZE = 64;
 
+/** How many embedding requests to keep in flight at once. */
+const EMBED_CONCURRENCY = 4;
+
 /**
  * Builds (or incrementally updates) the index for `root`.
  *
@@ -104,21 +107,41 @@ export async function buildIndex(
   });
 
   // Flatten every pending chunk into one queue, embed in batches, then map the
-  // resulting vectors back onto their files.
+  // resulting vectors back onto their files. Batches run through a small
+  // concurrency pool so the first index of a large repo isn't bottlenecked on
+  // round-trip latency to a hosted provider — while results stay in queue order.
   const flat = pending.flatMap((file) => file.chunks.map((chunk) => ({ file, chunk })));
-  const vectors: number[][] = [];
+  const batches: { start: number; texts: string[] }[] = [];
   for (let i = 0; i < flat.length; i += EMBED_BATCH_SIZE) {
-    const batch = flat.slice(i, i + EMBED_BATCH_SIZE);
-    const embedded = await embedder.embed(batch.map((item) => item.chunk.text));
-    vectors.push(...embedded);
-    onProgress?.({
-      phase: 'embed',
-      changed: pending.length,
-      removed,
-      unchanged,
-      embeddedChunks: vectors.length,
+    batches.push({
+      start: i,
+      texts: flat.slice(i, i + EMBED_BATCH_SIZE).map((item) => item.chunk.text),
     });
   }
+
+  const vectors: number[][] = new Array<number[]>(flat.length);
+  let embeddedCount = 0;
+  let nextBatch = 0;
+  const worker = async (): Promise<void> => {
+    for (let idx = nextBatch++; idx < batches.length; idx = nextBatch++) {
+      const batch = batches[idx] as { start: number; texts: string[] };
+      const embedded = await embedder.embed(batch.texts);
+      for (let j = 0; j < embedded.length; j++) {
+        vectors[batch.start + j] = embedded[j] as number[];
+      }
+      embeddedCount += embedded.length;
+      onProgress?.({
+        phase: 'embed',
+        changed: pending.length,
+        removed,
+        unchanged,
+        embeddedChunks: embeddedCount,
+      });
+    }
+  };
+  await Promise.all(
+    Array.from({ length: Math.min(EMBED_CONCURRENCY, batches.length) }, () => worker()),
+  );
 
   if (vectors.length > 0 && (vectors[0] as number[]).length > 0) {
     store.meta.dimension = (vectors[0] as number[]).length;
