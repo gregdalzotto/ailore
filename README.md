@@ -334,21 +334,6 @@ models aren't comparable). ailore detects the change and rebuilds automatically.
 </details>
 
 <details>
-<summary><b>My terminal opens an AI chat instead of running the command</b></summary>
-
-Some terminals (e.g. **Warp** with Agent Mode) treat a line containing a natural
--language phrase in quotes as a prompt to their own AI, instead of running it.
-
-Two fixes:
-
-1. **Easiest:** run the command in the built-in **Terminal.app** or **iTerm**.
-   ailore is installed globally, so it works in any terminal.
-2. **In Warp:** switch the input from _Agent_ back to _Terminal_ mode, or disable
-   Agent autodetect under **Settings → AI**.
-
-</details>
-
-<details>
 <summary><b>Do I need an API key? Does it cost anything?</b></summary>
 
 No. With **Ollama** (the default) everything runs locally and for free — no API

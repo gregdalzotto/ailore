@@ -336,22 +336,6 @@ não são comparáveis). O ailore detecta a troca e reconstrói automaticamente.
 </details>
 
 <details>
-<summary><b>Meu terminal abre um chat de IA em vez de rodar o comando</b></summary>
-
-Alguns terminais (ex.: **Warp** com Agent Mode) tratam uma linha com uma frase em
-linguagem natural entre aspas como um prompt para a IA deles, em vez de executar
-o comando.
-
-Duas soluções:
-
-1. **Mais fácil:** rode o comando no **Terminal.app** ou **iTerm** nativos. O
-   ailore é instalado globalmente, então funciona em qualquer terminal.
-2. **No Warp:** alterne o input de _Agent_ de volta para o modo _Terminal_, ou
-   desative o autodetect do Agent em **Settings → AI**.
-
-</details>
-
-<details>
 <summary><b>Preciso de API key? Tem algum custo?</b></summary>
 
 Não. Com o **Ollama** (o padrão), tudo roda localmente e de graça — sem API key,
