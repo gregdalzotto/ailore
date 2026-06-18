@@ -8,6 +8,9 @@ coverage/
 # Local ailore index (generated when you run `ailore index`)
 .ailore/
 
+# Local config used while dogfooding ailore on this repo
+ailore.config.json
+
 # Environment & secrets
 .env
 .env.local
