@@ -6,13 +6,29 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-06-18
+
+### Added
+
+- **Concurrent embedding pool**: indexing embeds batches through a small
+  bounded-concurrency pool instead of strictly serially, so the first index of
+  a large repo is no longer bottlenecked on provider round-trip latency.
+  Vectors are still written back in queue order.
+
 ### Changed
 
+- **Binary index format (v2)**: chunk vectors moved out of `index.json` into a
+  packed `vectors.bin` sidecar (contiguous `Float32Array`). This shrinks the
+  JSON that must be parsed on every query (~9× smaller on a sample repo) and
+  speeds up loading. Older v1 indexes are read transparently and upgraded to v2
+  on the next `ailore index` — no re-embedding required.
 - **Documentation design system**: every guide now shares a consistent
   navigation frame — home / docs hub / language switch in the header and a
   guided prev → next tour in the footer — plus GitHub alert callouts
   (`[!TIP]` / `[!NOTE]` / `[!IMPORTANT]`) and a per-language documentation hub
   (`docs/en/README.md`, `docs/pt-BR/README.md`) with a grouped, card-style index.
+  A beginner note clarifies that using ailore needs only the npm package, not a
+  git clone.
 
 ## [0.3.0] — 2026-06-18
 
@@ -84,7 +100,8 @@ Initial release.
   retrieval (`topK`, `minScore`) via config file, env vars or CLI flags.
 - Exported library API for embedding the engine in other tools.
 
-[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/gregdalzotto/ailore/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/gregdalzotto/ailore/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gregdalzotto/ailore/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/gregdalzotto/ailore/compare/v0.1.0...v0.1.1
