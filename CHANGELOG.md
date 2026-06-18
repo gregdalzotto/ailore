@@ -6,6 +6,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **Hybrid retrieval**: a lexical BM25 ranking fused with the semantic (cosine)
+  ranking via Reciprocal Rank Fusion, so exact symbols/strings and conceptual
+  matches both rank well. New `retrieval.mode` (`vector` | `keyword` | `hybrid`,
+  default `hybrid`), configurable via the config file, `AILORE_RETRIEVAL_MODE`,
+  or the `--mode` flag on `ask`/`search`. No re-index required — BM25 is built
+  from the existing stored chunks.
+
 ## [0.1.1]
 
 ### Added

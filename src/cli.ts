@@ -4,7 +4,7 @@ import { runAsk } from './commands/ask.js';
 import { runIndex } from './commands/index-cmd.js';
 import { runInit } from './commands/init.js';
 import { runSearch } from './commands/search.js';
-import { PROVIDERS, type Provider } from './config/schema.js';
+import { PROVIDERS, RETRIEVAL_MODES, type Provider, type RetrievalMode } from './config/schema.js';
 import { logger } from './utils/logger.js';
 
 interface GlobalFlags {
@@ -15,6 +15,7 @@ interface GlobalFlags {
   indexDir?: string;
   topK?: string;
   minScore?: string;
+  mode?: RetrievalMode;
   temperature?: string;
   maxTokens?: string;
   topP?: string;
@@ -35,6 +36,7 @@ function toOverrides(flags: GlobalFlags) {
     indexDir: flags.indexDir,
     topK: num(flags.topK),
     minScore: num(flags.minScore),
+    mode: flags.mode,
     temperature: num(flags.temperature),
     maxTokens: num(flags.maxTokens),
     topP: num(flags.topP),
@@ -75,11 +77,12 @@ withGlobals(
 withGlobals(
   program
     .command('search')
-    .description('Semantic search over the index (no LLM, just ranked snippets)')
+    .description('Search the index (hybrid by default, no LLM — just ranked snippets)')
     .argument('<query...>', 'the search query')
     .option('--json', 'output results as JSON')
     .option('-k, --top-k <n>', 'number of results to return')
-    .option('--min-score <n>', 'drop results below this cosine score (0-1)'),
+    .option('--min-score <n>', 'drop results below this cosine score (0-1)')
+    .addOption(new Option('--mode <mode>', 'retrieval strategy').choices([...RETRIEVAL_MODES])),
 ).action(async (query: string[], flags: GlobalFlags & { json?: boolean }) => {
   await runSearch(query.join(' '), { ...toOverrides(flags), json: flags.json });
 });
@@ -92,6 +95,7 @@ withGlobals(
     .option('--no-stream', 'print the full answer at once instead of streaming')
     .option('-k, --top-k <n>', 'number of context snippets to retrieve')
     .option('--min-score <n>', 'drop context below this cosine score (0-1)')
+    .addOption(new Option('--mode <mode>', 'retrieval strategy').choices([...RETRIEVAL_MODES]))
     .option('-t, --temperature <n>', 'sampling temperature (0-2)')
     .option('--max-tokens <n>', 'maximum tokens in the answer')
     .option('--top-p <n>', 'nucleus sampling cutoff (0-1)')

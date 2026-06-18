@@ -4,9 +4,11 @@ import {
   DEFAULT_MODELS,
   DEFAULTS,
   fileConfigSchema,
+  RETRIEVAL_MODES,
   type FileConfig,
   type Provider,
   type ResolvedConfig,
+  type RetrievalMode,
 } from './schema.js';
 
 /** CLI flags that can override file/env config. All optional. */
@@ -18,10 +20,16 @@ export interface ConfigOverrides {
   indexDir?: string;
   topK?: number;
   minScore?: number;
+  mode?: RetrievalMode;
   temperature?: number;
   maxTokens?: number;
   topP?: number;
   seed?: number;
+}
+
+/** Validates a free-form retrieval-mode string (e.g. from env), else undefined. */
+function modeEnv(value: string | undefined): RetrievalMode | undefined {
+  return RETRIEVAL_MODES.includes(value as RetrievalMode) ? (value as RetrievalMode) : undefined;
 }
 
 /** Parses a numeric env var, returning undefined when unset or invalid. */
@@ -98,6 +106,11 @@ export async function loadConfig(
         numEnv(env.AILORE_MIN_SCORE) ??
         file.retrieval?.minScore ??
         DEFAULTS.retrieval.minScore,
+      mode:
+        overrides.mode ??
+        modeEnv(env.AILORE_RETRIEVAL_MODE) ??
+        file.retrieval?.mode ??
+        DEFAULTS.retrieval.mode,
     },
     generation: {
       temperature:

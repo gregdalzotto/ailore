@@ -17,9 +17,11 @@ export {
   DEFAULT_MODELS,
   DEFAULTS,
   PROVIDERS,
+  RETRIEVAL_MODES,
   type FileConfig,
   type Provider,
   type ResolvedConfig,
+  type RetrievalMode,
 } from './config/schema.js';
 
 export { buildIndex, type IndexProgress, type IndexResult } from './core/indexer.js';
@@ -27,6 +29,7 @@ export { retrieve, IndexNotFoundError } from './core/retriever.js';
 export { buildRagMessages, formatContext, uniqueSources } from './core/rag.js';
 export { chunkText, type Chunk, type ChunkOptions } from './core/chunker.js';
 export { cosineSimilarity, topKIndices } from './core/cosine.js';
+export { Bm25Index, reciprocalRankFusion, tokenize } from './core/bm25.js';
 export {
   VectorStore,
   resolveIndexDir,

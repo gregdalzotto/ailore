@@ -30,7 +30,7 @@ Em inglês, _lore_ significa o conhecimento acumulado — muitas vezes informal 
 
 ## O que faz
 
-- 🔍 **Busca semântica** em qualquer pasta de código ou documentação.
+- 🔍 **Busca híbrida** em qualquer pasta de código ou documentação — ranqueamento semântico (vetorial) e lexical (BM25) fundidos, acertando tanto conceitos quanto símbolos exatos.
 - 💬 **Respostas fundamentadas** (RAG): pergunte e receba uma resposta sintetizada que **cita as linhas de origem** usadas.
 - 🔒 **Local-first**: com Ollama, nada sai da sua máquina — sem API key, sem custo.
 - 🔌 **Agnóstico de provedor**: alterne entre Ollama, OpenAI, Gemini e OpenRouter com uma flag.
@@ -216,10 +216,11 @@ ailore ask --no-stream "o que a camada de cache faz?"   # imprime tudo de uma ve
 
 ### `ailore search <consulta>`
 
-Busca semântica pura — trechos ranqueados, sem chamar LLM. Ótimo para pular direto ao código relevante.
+Trechos ranqueados, sem chamar LLM. Usa busca híbrida por padrão; troque com `--mode`. Ótimo para pular direto ao código relevante.
 
 ```bash
 ailore search "rotação de refresh token jwt"
+ailore search --mode keyword "TokenRotationError"   # busca de símbolo exato
 ailore search --json "migrations do banco" > hits.json
 ```
 
@@ -263,7 +264,7 @@ API keys são lidas **somente** do ambiente, nunca do arquivo de config, para qu
   "embeddingProvider": "ollama",
   "chatModel": "llama3.1",
   "embeddingModel": "nomic-embed-text",
-  "retrieval": { "topK": 6, "minScore": 0 },
+  "retrieval": { "topK": 6, "minScore": 0, "mode": "hybrid" },
   "generation": { "temperature": 0.2, "maxTokens": 1024, "topP": 1, "seed": 42 },
   "chunk": { "maxChars": 1200, "overlapLines": 2 },
   "exclude": ["**/*.test.ts"],
@@ -282,6 +283,17 @@ Nada é hardcoded — todo parâmetro relevante pode ser definido no arquivo de 
 | Seed         | `generation.seed` · `AILORE_SEED` · `--seed`                          | nenhum             | Fixe para respostas **reprodutíveis** (mesma pergunta → mesma saída).                                  |
 | Top-k        | `retrieval.topK` · `-k, --top-k`                                      | `6`                | Quantos trechos alimentar o modelo.                                                                    |
 | Score mínimo | `retrieval.minScore` · `AILORE_MIN_SCORE` · `--min-score`             | `0`                | Descarta trechos abaixo desse score de cosseno para que correspondências fracas não diluam o contexto. |
+| Modo         | `retrieval.mode` · `AILORE_RETRIEVAL_MODE` · `--mode`                 | `hybrid`           | Estratégia de ranqueamento: `vector`, `keyword` ou `hybrid` (veja abaixo).                             |
+
+#### Modos de recuperação
+
+A busca semântica (vetorial) é ótima em _significado_, mas fraca em _tokens exatos_ — nomes de símbolos, mensagens de erro, flags. O **BM25** lexical é o oposto. O `ailore` usa **hybrid** por padrão, fundindo os dois ranqueamentos via [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf): um resultado que ambos gostam sobe ao topo, sem precisar calibrar scores.
+
+| Modo      | Como ranqueia                                 | Melhor para                                            |
+| --------- | --------------------------------------------- | ------------------------------------------------------ |
+| `hybrid`  | cosseno + BM25, fundidos via RRF (**padrão**) | A maioria das buscas — robusto a frasear e a símbolos. |
+| `vector`  | similaridade de cosseno pura                  | Perguntas conceituais sem termo exato a casar.         |
+| `keyword` | BM25 puro (sem chamar embeddings)             | Identificadores/strings exatos; também o mais rápido.  |
 
 ```bash
 # Resposta determinística e concisa
@@ -289,6 +301,9 @@ ailore ask --seed 42 --temperature 0 --max-tokens 300 "o que o cache faz?"
 
 # Usar apenas contexto fortemente relevante
 ailore ask --min-score 0.35 -k 10 "como o rate limiting é configurado?"
+
+# Achar um símbolo exato rápido, sem ida ao modelo de embedding
+ailore search --mode keyword "reciprocalRankFusion"
 ```
 
 | Variável de ambiente                                             | Função                                               |
@@ -298,6 +313,7 @@ ailore ask --min-score 0.35 -k 10 "como o rate limiting é configurado?"
 | `OPENROUTER_API_KEY`                                             | Autenticação OpenRouter                              |
 | `OLLAMA_BASE_URL`                                                | Endpoint do Ollama (padrão `http://localhost:11434`) |
 | `AILORE_PROVIDER`, `AILORE_CHAT_MODEL`, `AILORE_EMBEDDING_MODEL` | Override sem flags                                   |
+| `AILORE_RETRIEVAL_MODE`                                          | Modo de recuperação: `vector` / `keyword` / `hybrid` |
 
 ## Uso como biblioteca
 

@@ -8,7 +8,7 @@ const SAMPLE_CONFIG = {
   embeddingProvider: 'ollama',
   chatModel: 'llama3.1',
   embeddingModel: 'nomic-embed-text',
-  retrieval: { topK: 6, minScore: 0 },
+  retrieval: { topK: 6, minScore: 0, mode: 'hybrid' },
   generation: { temperature: 0.2 },
   chunk: { maxChars: 1200, overlapLines: 2 },
   exclude: [],

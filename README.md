@@ -30,7 +30,7 @@ In English, _lore_ means the accumulated, often informal knowledge about somethi
 
 ## What it does
 
-- 🔍 **Semantic search** over any folder of code or documentation.
+- 🔍 **Hybrid search** over any folder of code or documentation — semantic (vector) and lexical (BM25) ranking fused, so it nails both concepts and exact symbols.
 - 💬 **Grounded answers** (RAG): ask a question, get a synthesized answer that cites the exact source lines it used.
 - 🔒 **Local-first**: with Ollama, nothing ever leaves your machine — no API key, no cost.
 - 🔌 **Provider-agnostic**: swap between Ollama, OpenAI, Gemini and OpenRouter with a single flag.
@@ -216,10 +216,11 @@ ailore ask --no-stream "what does the cache layer do?" # print all at once
 
 ### `ailore search <query>`
 
-Pure semantic search — ranked snippets, no LLM call. Great for quickly jumping to relevant code.
+Ranked snippets, no LLM call. Uses hybrid retrieval by default; switch with `--mode`. Great for quickly jumping to relevant code.
 
 ```bash
 ailore search "jwt refresh token rotation"
+ailore search --mode keyword "TokenRotationError"   # exact-symbol lookup
 ailore search --json "database migrations" > hits.json
 ```
 
@@ -263,7 +264,7 @@ API keys are **only** read from the environment, never from the config file, so 
   "embeddingProvider": "ollama",
   "chatModel": "llama3.1",
   "embeddingModel": "nomic-embed-text",
-  "retrieval": { "topK": 6, "minScore": 0 },
+  "retrieval": { "topK": 6, "minScore": 0, "mode": "hybrid" },
   "generation": { "temperature": 0.2, "maxTokens": 1024, "topP": 1, "seed": 42 },
   "chunk": { "maxChars": 1200, "overlapLines": 2 },
   "exclude": ["**/*.test.ts"],
@@ -282,6 +283,17 @@ Nothing is hardcoded — every meaningful parameter can be set in the config fil
 | Seed        | `generation.seed` · `AILORE_SEED` · `--seed`                          | none             | Fix it for **reproducible** answers (same question → same output).        |
 | Top-k       | `retrieval.topK` · `-k, --top-k`                                      | `6`              | How many chunks to feed the model.                                        |
 | Min score   | `retrieval.minScore` · `AILORE_MIN_SCORE` · `--min-score`             | `0`              | Drop chunks below this cosine score so weak matches don't dilute context. |
+| Mode        | `retrieval.mode` · `AILORE_RETRIEVAL_MODE` · `--mode`                 | `hybrid`         | Ranking strategy: `vector`, `keyword` or `hybrid` (see below).            |
+
+#### Retrieval modes
+
+Semantic (vector) search is great at _meaning_ but weak at _exact tokens_ — symbol names, error strings, flags. Lexical **BM25** is the opposite. `ailore` defaults to **hybrid**, fusing both rankings with [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) so a result both rankers like floats to the top — no score calibration needed.
+
+| Mode      | How it ranks                               | Best for                                           |
+| --------- | ------------------------------------------ | -------------------------------------------------- |
+| `hybrid`  | cosine + BM25, fused via RRF (**default**) | Most queries — robust across phrasing and symbols. |
+| `vector`  | pure cosine similarity                     | Conceptual questions with no exact term to match.  |
+| `keyword` | pure BM25 (no embedding call)              | Exact identifiers/strings; also the fastest path.  |
 
 ```bash
 # Deterministic, concise answer
@@ -289,6 +301,9 @@ ailore ask --seed 42 --temperature 0 --max-tokens 300 "what does the cache do?"
 
 # Only use strongly-relevant context
 ailore ask --min-score 0.35 -k 10 "how is rate limiting configured?"
+
+# Find an exact symbol fast, no embedding round-trip
+ailore search --mode keyword "reciprocalRankFusion"
 ```
 
 | Env var                                                          | Purpose                                            |
@@ -298,6 +313,7 @@ ailore ask --min-score 0.35 -k 10 "how is rate limiting configured?"
 | `OPENROUTER_API_KEY`                                             | OpenRouter auth                                    |
 | `OLLAMA_BASE_URL`                                                | Ollama endpoint (default `http://localhost:11434`) |
 | `AILORE_PROVIDER`, `AILORE_CHAT_MODEL`, `AILORE_EMBEDDING_MODEL` | Override without flags                             |
+| `AILORE_RETRIEVAL_MODE`                                          | Retrieval mode: `vector` / `keyword` / `hybrid`    |
 
 ## Use as a library
 

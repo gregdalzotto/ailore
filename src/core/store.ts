@@ -129,6 +129,22 @@ export class VectorStore {
     }));
   }
 
+  /**
+   * Scores every chunk against the query embedding and returns them sorted by
+   * descending cosine similarity. Hybrid retrieval needs the full vector
+   * ranking (not just the top-K) to fuse with the lexical ranking.
+   */
+  scoreAll(queryVector: number[]): SearchResult[] {
+    return this.chunks
+      .map((chunk) => ({ chunk, score: cosineSimilarity(queryVector, chunk.vector) }))
+      .sort((a, b) => b.score - a.score);
+  }
+
+  /** All stored chunks, e.g. for building a lexical (BM25) index. */
+  allChunks(): readonly StoredChunk[] {
+    return this.chunks;
+  }
+
   /** Persists the index to disk, refreshing `updatedAt`. */
   async save(now: string): Promise<void> {
     this.meta.updatedAt = now;

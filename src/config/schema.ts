@@ -5,6 +5,16 @@ export const providerSchema = z.enum(PROVIDERS);
 export type Provider = z.infer<typeof providerSchema>;
 
 /**
+ * How retrieval ranks chunks:
+ * - `vector`  — pure semantic (cosine) search.
+ * - `keyword` — pure lexical BM25 search; best for exact symbols/strings.
+ * - `hybrid`  — fuses both via Reciprocal Rank Fusion (default, most robust).
+ */
+export const RETRIEVAL_MODES = ['vector', 'keyword', 'hybrid'] as const;
+export const retrievalModeSchema = z.enum(RETRIEVAL_MODES);
+export type RetrievalMode = z.infer<typeof retrievalModeSchema>;
+
+/**
  * Schema for the optional config file (`ailore.config.json`). Every field is
  * optional; missing values fall back to env vars, then to built-in defaults.
  * API keys are intentionally NOT part of the file schema — they must come from
@@ -33,6 +43,8 @@ export const fileConfigSchema = z
         topK: z.number().int().positive().optional(),
         /** Drop chunks scoring below this cosine similarity (0–1). */
         minScore: z.number().min(-1).max(1).optional(),
+        /** Ranking strategy: vector, keyword (BM25) or hybrid. */
+        mode: retrievalModeSchema.optional(),
       })
       .optional(),
     generation: z
@@ -60,7 +72,7 @@ export interface ResolvedConfig {
   include: string[] | undefined;
   exclude: string[];
   chunk: { maxChars: number; overlapLines: number };
-  retrieval: { topK: number; minScore: number };
+  retrieval: { topK: number; minScore: number; mode: RetrievalMode };
   generation: { temperature: number; maxTokens?: number; topP?: number; seed?: number };
   maxFileSizeBytes: number;
   apiKeys: {
@@ -85,7 +97,7 @@ export const DEFAULTS = {
   ollamaBaseUrl: 'http://localhost:11434',
   indexDir: '.ailore',
   chunk: { maxChars: 1200, overlapLines: 2 },
-  retrieval: { topK: 6, minScore: 0 },
+  retrieval: { topK: 6, minScore: 0, mode: 'hybrid' as RetrievalMode },
   // A low temperature keeps RAG answers grounded and repeatable by default.
   generation: { temperature: 0.2 },
   maxFileSizeBytes: 1_000_000,
