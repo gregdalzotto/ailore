@@ -11,6 +11,9 @@ coverage/
 # Local config used while dogfooding ailore on this repo
 ailore.config.json
 
+# Generated video assets (the demo GIF is committed; MP4 is for sharing only)
+*.mp4
+
 # Environment & secrets
 .env
 .env.local
