@@ -34,6 +34,23 @@ In English, _lore_ means the accumulated, often informal knowledge about somethi
 - 📎 **Trustworthy citations**: every chunk maps back to `path:startLine-endLine`, so you can verify answers.
 - 🪶 **Zero heavy dependencies**: the index is a plain file, no database to run, no native modules.
 
+## Demo
+
+```console
+$ ailore index
+• Indexing . with ollama:bge-m3
+✓ Indexed 42 files / 113 chunks
+
+$ ailore ask "how does incremental indexing skip unchanged files?"
+ailore stores a content hash for every file. On the next run it re-hashes each
+file and compares: unchanged files are skipped, only changed ones are
+re-embedded, and deleted files are pruned. [core/indexer.ts:54-96]
+
+Sources:
+  core/indexer.ts:54-96
+  core/hash.ts:1-9
+```
+
 ## Install
 
 ```bash

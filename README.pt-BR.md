@@ -34,6 +34,23 @@ Em inglês, _lore_ significa o conhecimento acumulado — muitas vezes informal 
 - 📎 **Citações confiáveis**: todo trecho aponta para `arquivo:linhaInicio-linhaFim`, então você pode verificar a resposta.
 - 🪶 **Sem dependências pesadas**: o índice é um arquivo simples, sem banco para rodar, sem módulos nativos.
 
+## Demo
+
+```console
+$ ailore index
+• Indexing . with ollama:bge-m3
+✓ Indexed 42 files / 113 chunks
+
+$ ailore ask "como a indexação evita reprocessar arquivos que não mudaram?"
+O ailore guarda um hash do conteúdo de cada arquivo. Na execução seguinte ele
+recalcula o hash e compara: arquivos inalterados são pulados, só os alterados
+são re-embedados, e os deletados são removidos. [core/indexer.ts:54-96]
+
+Sources:
+  core/indexer.ts:54-96
+  core/hash.ts:1-9
+```
+
 ## Instalação
 
 ```bash
