@@ -60,6 +60,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
+    "audit:prod": "npm audit --omit=dev --audit-level=low",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

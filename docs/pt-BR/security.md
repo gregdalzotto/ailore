@@ -42,6 +42,9 @@ Como o conteúdo dos arquivos recuperados entra no prompt do modelo, o conteúdo
 
 O pacote publicado entrega um runtime enxuto; o SDK do MCP, mais pesado, é uma dependência **opcional** instalada só por quem roda [`ailore mcp`](./mcp.md). O ferramental de desenvolvimento e build não faz parte do pacote publicado.
 
+> [!NOTE]
+> A CI audita o runtime de produção (`npm audit --omit=dev`) a cada mudança **e** no release — uma dependência vulnerável publicada falha o build, então não chega aos usuários.
+
 ## Versões suportadas
 
 Como projeto pré-1.0, apenas a última versão lançada recebe correções de segurança.

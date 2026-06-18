@@ -7,6 +7,29 @@ on:
     branches: [main]
 
 jobs:
+  # Security gate — no feature ships over a vulnerable published runtime.
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - run: npm ci
+
+      # Hard gate: fail the build on ANY vulnerability in what users actually
+      # install (production dependencies). The published runtime must stay clean.
+      - name: Audit published runtime
+        run: npm run audit:prod
+
+      # Visibility only: dev/build tooling isn't shipped, so report without
+      # blocking (these advisories never reach users).
+      - name: Audit all dependencies (report only)
+        run: npm audit || true
+
   build:
     runs-on: ubuntu-latest
     strategy:

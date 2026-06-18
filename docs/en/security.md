@@ -42,6 +42,9 @@ Because retrieved file content is placed in the model's prompt, content in an in
 
 The published package ships a small, dependency-light runtime; the heavier MCP SDK is an **optional** dependency installed only by users who run [`ailore mcp`](./mcp.md). Development and build tooling is not part of the published package.
 
+> [!NOTE]
+> CI audits the production runtime (`npm audit --omit=dev`) on every change **and** on release — a vulnerable shipped dependency fails the build, so it can't reach users.
+
 ## Supported versions
 
 As a pre-1.0 project, only the latest released version receives security fixes.

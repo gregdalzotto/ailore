@@ -6,6 +6,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Security
+
+- CI now enforces a **security gate**: a dedicated job audits the production
+  runtime (`npm audit --omit=dev`, via `npm run audit:prod`) on every push and
+  pull request, and the publish workflow runs the same check before releasing —
+  so a vulnerable shipped dependency fails the build and can't reach users.
+
 ## [0.4.1] — 2026-06-18
 
 ### Security

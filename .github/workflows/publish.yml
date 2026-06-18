@@ -31,6 +31,9 @@ jobs:
       - run: npm test
       - run: npm run build
 
+      # Security gate: never publish over a vulnerable production runtime.
+      - run: npm run audit:prod
+
       # Publishes with provenance, proving the package was built from this
       # repo + workflow. Requires the NPM_TOKEN repository secret.
       - run: npm publish --provenance --access public
