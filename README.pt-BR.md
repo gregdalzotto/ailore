@@ -61,6 +61,115 @@ Requer **Node.js >= 20**.
 
 Pronto. O índice é gravado em `.ailore/` no diretório atual.
 
+## Tutorial passo a passo (para iniciantes)
+
+Nunca usou uma ferramenta assim? Este guia vai do zero até a sua primeira
+resposta, mostrando exatamente o que digitar e o que esperar em cada etapa. Ele
+usa o modo **100% local** (Ollama) — sem API key, sem custo, nada sai da sua
+máquina.
+
+<details>
+<summary><b>Abrir o tutorial completo</b></summary>
+
+### 1. Confirme que você tem Node.js 20+
+
+```bash
+node --version
+```
+
+Se aparecer `v20.x` ou superior, está tudo certo. Se aparecer uma versão menor
+ou `command not found`, instale o Node.js em [nodejs.org](https://nodejs.org) e
+rode o comando de novo.
+
+### 2. Instale o ailore
+
+```bash
+npm install -g ailore
+ailore --version
+```
+
+`ailore --version` deve imprimir um número de versão. Se o terminal disser
+`command not found: ailore`, feche e reabra o terminal e tente de novo.
+
+### 3. Instale o Ollama e baixe dois modelos
+
+O ailore precisa de **dois** modelos: um para transformar texto em vetores (para
+a busca) e um para escrever as respostas (no `ask`).
+
+1. Instale o Ollama em [ollama.com](https://ollama.com). Ele roda um pequeno
+   servidor local em segundo plano.
+2. Baixe um modelo de chat e um de embedding:
+
+   ```bash
+   ollama pull llama3.2   # modelo de chat — escreve as respostas
+   ollama pull bge-m3     # modelo de embedding — multilíngue (ótimo p/ EN + PT-BR)
+   ```
+
+   > Só precisa de inglês? Use `nomic-embed-text` no lugar do `bge-m3` — é menor
+   > e mais rápido, mas mais fraco para outros idiomas.
+
+3. Confirme que baixaram:
+
+   ```bash
+   ollama list
+   ```
+
+   Você deve ver `llama3.2` e `bge-m3` na lista.
+
+### 4. Crie uma configuração no seu projeto
+
+```bash
+cd /caminho/do/seu-projeto
+ailore init
+```
+
+Abra o `ailore.config.json` gerado e confirme que os nomes dos modelos batem com
+os que você baixou no passo 3:
+
+```jsonc
+{
+  "chatModel": "llama3.2",
+  "embeddingModel": "bge-m3",
+}
+```
+
+### 5. Construa o índice
+
+```bash
+ailore index
+```
+
+Saída esperada (os números variam por projeto):
+
+```
+• Indexing /caminho/do/seu-projeto with ollama:bge-m3
+  scanning files...
+  embedding chunks: 113
+✓ Indexed 42 files / 113 chunks
+```
+
+### 6. Buscar (sem IA, só trechos ranqueados)
+
+```bash
+ailore search "como funciona a autenticação"
+```
+
+Você recebe uma lista dos trechos mais relevantes, cada um com a referência
+`arquivo:linha` e um score de relevância.
+
+### 7. Perguntar (resposta completa com citações)
+
+```bash
+ailore ask "como funciona a autenticação?"
+```
+
+A resposta aparece em streaming no terminal e os arquivos de origem usados são
+listados no final. Você pode perguntar em qualquer idioma — incluindo português.
+
+🎉 Esse é o ciclo completo: **instalar → modelos → config → indexar → buscar → perguntar.**
+
+</details>
+
 ## Uso
 
 ### `ailore index [caminho]`
@@ -196,6 +305,171 @@ pergunta ─▶ embed ─▶ busca cosseno (top-k) ─▶ prompt fundamentado �
 - O **chunking** é alinhado por linha, então todo trecho carrega um intervalo de linhas exato — é isso que torna as citações precisas.
 - A **busca** é um scan de cosseno exato (força bruta). Simples, preciso e rápido para os corpora pequenos e médios que esta ferramenta atende.
 - A reindexação **incremental** faz hash de cada arquivo e pula os inalterados; arquivos deletados são removidos.
+
+## Perguntas frequentes (FAQ)
+
+<details>
+<summary><b>Em quais idiomas posso perguntar e buscar?</b></summary>
+
+Qualquer idioma — não existe uma configuração de idioma. Mas as duas etapas se
+comportam de formas diferentes:
+
+- **Perguntar (`ask`)**: o modelo de chat responde no idioma em que você
+  escrever. Pergunte em português → resposta em português, mesmo que o código
+  esteja em inglês.
+- **Buscar (recuperação)**: a qualidade depende do **modelo de embedding**. O
+  `nomic-embed-text` é otimizado para inglês; para um português forte (ou
+  qualquer busca cruzada, como uma pergunta em PT-BR sobre código em inglês),
+  use um modelo multilíngue.
+
+Para mudar para busca multilíngue:
+
+```bash
+ollama pull bge-m3
+# defina "embeddingModel": "bge-m3" no ailore.config.json e então:
+ailore index
+```
+
+Trocar o modelo de embedding exige reindexar tudo (vetores de modelos diferentes
+não são comparáveis). O ailore detecta a troca e reconstrói automaticamente.
+
+</details>
+
+<details>
+<summary><b>Meu terminal abre um chat de IA em vez de rodar o comando</b></summary>
+
+Alguns terminais (ex.: **Warp** com Agent Mode) tratam uma linha com uma frase em
+linguagem natural entre aspas como um prompt para a IA deles, em vez de executar
+o comando.
+
+Duas soluções:
+
+1. **Mais fácil:** rode o comando no **Terminal.app** ou **iTerm** nativos. O
+   ailore é instalado globalmente, então funciona em qualquer terminal.
+2. **No Warp:** alterne o input de _Agent_ de volta para o modo _Terminal_, ou
+   desative o autodetect do Agent em **Settings → AI**.
+
+</details>
+
+<details>
+<summary><b>Preciso de API key? Tem algum custo?</b></summary>
+
+Não. Com o **Ollama** (o padrão), tudo roda localmente e de graça — sem API key,
+sem custo de uso. Você só precisa de uma chave se escolher um provedor
+hospedado:
+
+```bash
+export OPENAI_API_KEY=sk-...
+ailore ask -p openai "..."
+```
+
+</details>
+
+<details>
+<summary><b>Meu código é enviado para algum lugar? É privado?</b></summary>
+
+- **Com Ollama:** nada sai da sua máquina. A indexação e a geração da resposta
+  acontecem inteiramente no seu computador.
+- **Com um provedor hospedado (OpenAI/Gemini/OpenRouter):** o texto dos trechos
+  recuperados para uma pergunta, mais a sua pergunta, é enviado a esse provedor
+  para gerar a resposta — como em qualquer chamada de API. Suas API keys são
+  lidas apenas de variáveis de ambiente e nunca são gravadas no arquivo de
+  config nem no índice.
+
+</details>
+
+<details>
+<summary><b>Como uso o ailore em qualquer projeto sem editar o config toda vez?</b></summary>
+
+O arquivo de config é por projeto. Para definir seus modelos preferidos na
+máquina inteira, exporte variáveis de ambiente (ex.: no `~/.zshrc` ou
+`~/.bashrc`):
+
+```bash
+export AILORE_CHAT_MODEL=llama3.2
+export AILORE_EMBEDDING_MODEL=bge-m3
+```
+
+Agora você pode dar `cd` em qualquer projeto e simplesmente rodar `ailore index`
+/ `ailore ask`.
+
+</details>
+
+<details>
+<summary><b>Como obtenho a mesma resposta toda vez (reprodutível)?</b></summary>
+
+Passe um `--seed` fixo e temperatura `0`:
+
+```bash
+ailore ask --seed 42 --temperature 0 "o que a camada de cache faz?"
+```
+
+</details>
+
+<details>
+<summary><b>A resposta cita os docs em vez do código — como controlo o que é indexado?</b></summary>
+
+Use globs de `include`/`exclude` no `ailore.config.json`. Por exemplo, para
+ignorar markdown e fazer as respostas virem do código:
+
+```jsonc
+{ "exclude": ["**/*.md"] }
+```
+
+Depois reindexe com `ailore index`. Você também pode limitar uma execução a uma
+subpasta: `ailore index ./src`.
+
+</details>
+
+<details>
+<summary><b>Aparece "No index found. Run ailore index first."</b></summary>
+
+O `search` e o `ask` leem um índice criado pelo `index`. Rode `ailore index` no
+projeto primeiro. Se você roda os comandos de outra pasta, aponte para o projeto
+com `-C`: `ailore ask -C /caminho/do/projeto "..."`.
+
+</details>
+
+<details>
+<summary><b>Aparece erro de conexão do Ollama ou "model not found"</b></summary>
+
+- **Erro de conexão:** o servidor do Ollama não está rodando. Abra o app do
+  Ollama, ou rode `ollama serve` em um terminal separado.
+- **Model not found:** baixe o modelo primeiro, ex.: `ollama pull bge-m3`, e
+  confirme com `ollama list`. O nome no `ailore.config.json` precisa ser
+  exatamente igual.
+
+</details>
+
+<details>
+<summary><b>Mudei alguns arquivos — preciso reindexar tudo?</b></summary>
+
+Não. O `ailore index` é incremental: ele faz hash de cada arquivo e só re-embeda
+os que mudaram (e remove os deletados). Basta rodar `ailore index` de novo — ele
+vai reportar algo como `1 changed · 41 unchanged · 0 removed`.
+
+</details>
+
+<details>
+<summary><b>Qual o tamanho de projeto que ele aguenta?</b></summary>
+
+A busca é um scan de cosseno exato mantido inteiramente em memória, o que é
+rápido e preciso para bases pequenas e médias (até cerca de dezenas de milhares
+de chunks). Para monorepos muito grandes, limite o índice às pastas relevantes
+(`ailore index ./src`) ou use globs de `exclude`. Um índice de vizinhos
+aproximados (ANN) para repositórios enormes está no [roadmap](#roadmap).
+
+</details>
+
+<details>
+<summary><b>Como desinstalo ou reseto?</b></summary>
+
+```bash
+rm -rf .ailore            # apaga o índice de um projeto (refeito no próximo `ailore index`)
+npm uninstall -g ailore   # remove o comando global
+```
+
+</details>
 
 ## Roadmap
 
