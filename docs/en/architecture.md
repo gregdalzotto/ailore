@@ -16,7 +16,15 @@ query ──▶ ┌─ cosine (semantic) ─┐                                 
 
 ## The index
 
-The index is a single `.ailore/index.json` file — no database to run, no native modules. It holds per-file content hashes (for incremental updates), the embedded chunks with their `path:startLine-endLine` ranges, and metadata about the embedding model used. Changing the embedding model triggers an automatic rebuild, since vectors from different models aren't comparable.
+The index lives under `.ailore/` — no database to run, no native modules:
+
+- **`index.json`** — lightweight metadata: per-file content hashes (for incremental updates), the chunk text with its `path:startLine-endLine` range, and the embedding model used.
+- **`vectors.bin`** — the embeddings, packed as a contiguous binary `Float32Array` in chunk order. Keeping vectors out of the JSON makes `index.json` small and quick to parse, so loading a large index is fast.
+
+Changing the embedding model triggers an automatic rebuild, since vectors from different models aren't comparable.
+
+> [!NOTE]
+> Older single-file (v1) indexes are read transparently and upgraded to this binary (v2) layout on the next `ailore index` — no re-embedding.
 
 ## Scale
 

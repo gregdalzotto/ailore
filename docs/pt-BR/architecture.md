@@ -16,7 +16,15 @@ pergunta ─▶ ┌─ cosseno (semântico) ─┐                              
 
 ## O índice
 
-O índice é um único arquivo `.ailore/index.json` — sem banco de dados para rodar, sem módulos nativos. Ele guarda os hashes de conteúdo por arquivo (para atualizações incrementais), os trechos embedados com seus intervalos `arquivo:linhaInicio-linhaFim`, e metadados sobre o modelo de embedding usado. Trocar o modelo de embedding dispara uma reconstrução automática, já que vetores de modelos diferentes não são comparáveis.
+O índice fica em `.ailore/` — sem banco de dados para rodar, sem módulos nativos:
+
+- **`index.json`** — metadados leves: hashes de conteúdo por arquivo (para atualizações incrementais), o texto do trecho com seu intervalo `arquivo:linhaInicio-linhaFim`, e o modelo de embedding usado.
+- **`vectors.bin`** — os embeddings, empacotados como um `Float32Array` binário contíguo na ordem dos chunks. Manter os vetores fora do JSON deixa o `index.json` pequeno e rápido de parsear, então carregar um índice grande é rápido.
+
+Trocar o modelo de embedding dispara uma reconstrução automática, já que vetores de modelos diferentes não são comparáveis.
+
+> [!NOTE]
+> Índices antigos de arquivo único (v1) são lidos de forma transparente e atualizados para este layout binário (v2) no próximo `ailore index` — sem reembedar.
 
 ## Escala
 
