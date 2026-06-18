@@ -6,6 +6,8 @@
 
 Ask questions in natural language and get answers grounded in _your own files_ — with exact `path:line` citations. Runs fully offline with [Ollama](https://ollama.com), or with OpenAI, Gemini and OpenRouter.
 
+[![npm version](https://img.shields.io/npm/v/ailore.svg)](https://www.npmjs.com/package/ailore)
+[![npm downloads](https://img.shields.io/npm/dm/ailore.svg)](https://www.npmjs.com/package/ailore)
 [![CI](https://github.com/gregdalzotto/ailore/actions/workflows/ci.yml/badge.svg)](https://github.com/gregdalzotto/ailore/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)

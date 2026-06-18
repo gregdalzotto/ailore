@@ -6,6 +6,8 @@
 
 Faça perguntas em linguagem natural e receba respostas fundamentadas nos _seus próprios arquivos_ — com citações exatas no formato `arquivo:linha`. Funciona 100% offline com [Ollama](https://ollama.com), ou com OpenAI, Gemini e OpenRouter.
 
+[![npm version](https://img.shields.io/npm/v/ailore.svg)](https://www.npmjs.com/package/ailore)
+[![npm downloads](https://img.shields.io/npm/dm/ailore.svg)](https://www.npmjs.com/package/ailore)
 [![CI](https://github.com/gregdalzotto/ailore/actions/workflows/ci.yml/badge.svg)](https://github.com/gregdalzotto/ailore/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
