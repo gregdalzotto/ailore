@@ -338,11 +338,13 @@ for (const { chunk, score } of hits) {
 ```
 files ──▶ scan (respect .gitignore) ──▶ chunk (line-aligned) ──▶ embed ──▶ .ailore/index.json
                                                                               │
-query ──▶ embed ──▶ cosine search (top-k) ──▶ build grounded prompt ──▶ LLM ──┘──▶ answer + citations
+query ──▶ ┌─ cosine (semantic) ─┐                                            │
+          ├─ BM25 (lexical) ────┤─ RRF fuse (top-k) ─▶ grounded prompt ─▶ LLM ┘──▶ answer + citations
+          └─────────────────────┘
 ```
 
 - **Chunking** is line-aligned so every chunk carries an exact line range — that's what makes citations precise.
-- **Search** is an exact (brute-force) cosine scan. Simple, accurate, and fast for the small-to-medium corpora this targets.
+- **Retrieval** is hybrid by default: an exact (brute-force) cosine scan for meaning, a BM25 ranking for exact tokens, fused with [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf). Both rankings run over the same stored chunks; the BM25 index is built in-memory at query time, so it needs nothing extra on disk. Switch to pure `vector` or `keyword` with `retrieval.mode`.
 - **Incremental** re-indexing hashes each file and skips unchanged ones; deleted files are pruned.
 
 ## FAQ

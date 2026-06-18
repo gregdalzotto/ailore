@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-06-18
+
 ### Added
 
 - **Hybrid retrieval**: a lexical BM25 ranking fused with the semantic (cosine)
@@ -13,7 +15,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   matches both rank well. New `retrieval.mode` (`vector` | `keyword` | `hybrid`,
   default `hybrid`), configurable via the config file, `AILORE_RETRIEVAL_MODE`,
   or the `--mode` flag on `ask`/`search`. No re-index required — BM25 is built
-  from the existing stored chunks.
+  in-memory from the existing stored chunks, with a code-aware tokenizer that
+  splits camelCase/snake_case while keeping the compound token.
+- Public API exports for the new building blocks: `Bm25Index`,
+  `reciprocalRankFusion`, `tokenize`, plus `RETRIEVAL_MODES` / `RetrievalMode`.
+
+### Changed
+
+- Default retrieval is now `hybrid` instead of pure vector search. Set
+  `retrieval.mode` to `"vector"` to restore the previous behavior exactly.
 
 ## [0.1.1]
 
@@ -45,6 +55,7 @@ Initial release.
   retrieval (`topK`, `minScore`) via config file, env vars or CLI flags.
 - Exported library API for embedding the engine in other tools.
 
-[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/gregdalzotto/ailore/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/gregdalzotto/ailore/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/gregdalzotto/ailore/releases/tag/v0.1.0

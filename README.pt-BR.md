@@ -338,11 +338,13 @@ for (const { chunk, score } of hits) {
 ```
 arquivos ─▶ varredura (.gitignore) ─▶ chunk (por linha) ─▶ embed ─▶ .ailore/index.json
                                                                        │
-pergunta ─▶ embed ─▶ busca cosseno (top-k) ─▶ prompt fundamentado ─▶ LLM ─┘─▶ resposta + citações
+pergunta ─▶ ┌─ cosseno (semântico) ─┐                                  │
+            ├─ BM25 (lexical) ──────┤─ fusão RRF (top-k) ─▶ prompt ─▶ LLM ┘─▶ resposta + citações
+            └───────────────────────┘
 ```
 
 - O **chunking** é alinhado por linha, então todo trecho carrega um intervalo de linhas exato — é isso que torna as citações precisas.
-- A **busca** é um scan de cosseno exato (força bruta). Simples, preciso e rápido para os corpora pequenos e médios que esta ferramenta atende.
+- A **recuperação** é híbrida por padrão: um scan de cosseno exato (força bruta) para significado, um ranqueamento BM25 para tokens exatos, fundidos com [Reciprocal Rank Fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf). Os dois rodam sobre os mesmos trechos armazenados; o índice BM25 é montado em memória na hora da busca, então não ocupa nada a mais em disco. Troque para `vector` ou `keyword` puros via `retrieval.mode`.
 - A reindexação **incremental** faz hash de cada arquivo e pula os inalterados; arquivos deletados são removidos.
 
 ## Perguntas frequentes (FAQ)
