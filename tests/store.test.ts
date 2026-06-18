@@ -140,7 +140,9 @@ describe('VectorStore — v2 binary format & migration', () => {
         updatedAt: 'now',
       },
       files: { 'a.ts': { hash: 'h', chunkIds: ['a.ts:1-1'] } },
-      chunks: [{ id: 'a.ts:1-1', file: 'a.ts', startLine: 1, endLine: 1, text: 't', vector: [1, 0] }],
+      chunks: [
+        { id: 'a.ts:1-1', file: 'a.ts', startLine: 1, endLine: 1, text: 't', vector: [1, 0] },
+      ],
     };
     await writeFile(join(dir, 'index.json'), JSON.stringify(v1));
 
