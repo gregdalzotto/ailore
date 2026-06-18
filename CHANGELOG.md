@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-06-18
+
 ### Added
 
 - **`ailore mcp`**: a Model Context Protocol server over stdio that exposes
@@ -15,6 +17,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   lazily, so the base install stays lean and non-MCP usage pays no cost; a
   missing package yields an actionable install hint. Library API gains
   `startMcpServer`, `runSearchTool`, `runAskTool`.
+
+### Changed
+
+- **Documentation overhaul**: the single long README was split into a slim,
+  visual landing page (with an SVG banner) plus focused topic guides under
+  `docs/en` and `docs/pt-BR` — getting started, commands, configuration,
+  retrieval modes, providers, MCP integration, architecture, library API and
+  FAQ. Every guide is bilingual (English + Portuguese) with step-by-step
+  examples, so readers jump straight to what they need.
 
 ## [0.2.0] — 2026-06-18
 
@@ -65,7 +76,8 @@ Initial release.
   retrieval (`topK`, `minScore`) via config file, env vars or CLI flags.
 - Exported library API for embedding the engine in other tools.
 
-[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/gregdalzotto/ailore/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/gregdalzotto/ailore/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gregdalzotto/ailore/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/gregdalzotto/ailore/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/gregdalzotto/ailore/releases/tag/v0.1.0

@@ -1,6 +1,6 @@
 {
   "name": "ailore",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Local-first semantic search and RAG for your codebase and docs. Ask questions in natural language and get answers grounded in your own files, with citations. Works fully offline with Ollama, or with OpenAI, Gemini and OpenRouter.",
   "type": "module",
   "license": "MIT",
